@@ -1,6 +1,24 @@
 angular.module('myApp').config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
-    
+
+.state('home',{
+ url:'/home',
+ templateUrl:'templates/home.html'
+
+})
+.state('signup',{
+ url:'/signup',
+ templateUrl:'templates/signup.html',
+ controller:'signup'
+
+
+})
+.state('login',{
+ url:'/login',
+ templateUrl:'templates/login.html',
+ controller:'login'
+
+})
     .state('app', {
       url: '/app',
       abstract: true,

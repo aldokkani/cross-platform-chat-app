@@ -1,1 +1,55 @@
 /* Empty. Add your own CSS if you like */
+
+.homepage{
+background-image: url('../img/home.jpg');
+background-size: cover;
+background-position: center;
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0,0.6);
+  text-align: center;
+}
+
+.overlay:before{
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.contents{
+  vertical-align: middle;
+  display: inline-block;
+  text-align: center;
+}
+
+h1{
+  color: #fff;
+  text-align: center;
+}
+
+.homepage .item{
+  border: 0;
+}
+
+.homepage .item-input{
+text-align: left;
+padding-left: 0;
+}
+
+.homepage .item-input span{
+color: #fff;
+}
+
+.homepage input{
+background: transparent;
+color: #fff;
+border-bottom: 1px solid #fff;
+}

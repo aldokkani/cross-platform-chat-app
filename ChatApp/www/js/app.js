@@ -4,11 +4,17 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-var socket = io("http://172.16.2.235:3000");
+var socket = io("http://localhost:3000");
 
 angular.module('myApp', ['ionic'])//###, 'starter.controllers'])
 
 .run(function($ionicPlatform , $state) {
+  var data={};
+data=JSON.parse(localStorage.getItem('user'));
+console.log(data);
+if(data.check==1){
+       $state.go('home')
+   }
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)

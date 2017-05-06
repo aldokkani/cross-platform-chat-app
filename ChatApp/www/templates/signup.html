@@ -1,0 +1,64 @@
+<ion-view >
+  <ion-content class="homepage">
+    <div class="overlay">
+      <div class="contents">
+        <div class="list">
+          <form novalidate ng-submit=" submitted=true;signup(signupform.$valid)" name="signupform">
+    <label class="item item-input item-stacked-label">
+      <span class="input-label" >User name</span>
+      <input type="text" ng-model="user.username" name="username" required>
+    </br>
+   <p class="error" ng-if="signupform.username.$error.required&&submitted">Enter Your UserName</p>
+</br>
+    </label>
+    <label class="item item-input item-stacked-label">
+      <span class="input-label" >First name</span>
+      <input type="text" ng-model="user.firstname" name="fname"  required>
+    </br>
+   <p class="error" ng-if="signupform.fname.$error.required&&submitted">Enter Your FirstName</p>
+</br>
+    </label>
+    <label class="item item-input item-stacked-label">
+      <span class="input-label" >Last name</span>
+      <input type="text" ng-model="user.lastname" name="lname" required >
+    </br>
+   <p class="error" ng-if="signupform.lname.$error.required&&submitted">Enter Your LastName</p>
+</br>
+    </label>
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Email</span>
+      <input type="text" ng-model="user.email" name="email" required>
+    </br>
+   <p class="error" ng-if="signupform.email.$error.required&&submitted">Enter Your Email</p>
+</br>
+    </label>
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Password</span>
+      <input type="password" ng-model="user.password" name="password" required>
+    </br>
+   <p class="error" ng-if="signupform.password.$error.required&&submitted">Enter Your Password</p>
+</br>
+</br>
+     <p class="error" ng-if="errorLength&&submitted">Password less than 6</p>
+    </br>
+    </label>
+    <label class="item item-input item-stacked-label">
+      <span class="input-label">Confirm Password</span>
+      <input type="password" ng-model="user.confirmpassword" name="confirm" required>
+    </br>
+   <p class="error" ng-if="signform.confirm.$error.required&&submitted">Enter Your password</p>
+  </br>
+  <p class="error" ng-if="user.password!=user.confirm&&submitted&&user.confirm">password not match</p>
+ </br>
+    </label>
+
+
+    <button class="button button-assertive button-block" >Register</button>
+
+</form>
+</div>
+
+</div>
+</div>
+</ion-content>
+</ion-view>
