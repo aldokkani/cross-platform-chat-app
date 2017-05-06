@@ -4,11 +4,8 @@ angular.module('myApp').controller('login',function($scope,$state,User,$ionicPop
   $scope.login=function(valid){
     if(valid){
       console.log($scope.user.username);
-    //  localStorage.setItem('username',$scope.user.username)
-      // $state.go('home')
-    // console.log(User.login());
 
-  User.login().then(function(data){
+  User.login($scope.user).then(function(data){
     if($scope.user.check){
       localStorage.setItem('user',JSON.stringify({"check":1,"username":data.user.fullname}));
     }else{
