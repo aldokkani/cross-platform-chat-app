@@ -1,0 +1,18 @@
+<ion-view view-title="Chat">
+  <ion-content>
+   <div>
+   	 <span style="font-weight: bold"> Sender:  </span> <span>  msgbody </span>
+   </div>
+   <div>
+   	 <span style="font-weight: bold"> Sender:  </span> <span>  msgbody </span>
+   </div>
+ 	<form name="chatForm" ng-submit="submitted=true; submitMsg(chatForm.$valid)" novalidate>
+	    <div class="list list-inset">
+	        <textarea required name="msg"> </textarea>
+	        <p ng-if="chatForm.msg.$error.required && submitted">Cannot submit empty message</p>
+	    </div>
+	    <button class="button button-positive">Send</button>
+    </form>
+
+  </ion-content>
+</ion-view>

@@ -28,18 +28,18 @@
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/controllers/appctrl.js"></script>
+    <script src="js/controllers/ActiveUsers.js"></script>
+    <!-- <script src="js/controllers.js"></script> -->
   </head>
-  <body ng-app="starter">
 
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
-      </ion-header-bar>
-      <ion-content>
-      </ion-content>
-    </ion-pane>
+  <body ng-app="myApp">
+    <ion-nav-view></ion-nav-view>
   </body>
 </html>
