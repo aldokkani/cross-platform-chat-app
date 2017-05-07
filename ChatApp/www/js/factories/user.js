@@ -3,11 +3,10 @@ angular.module('myApp').factory('User',function ($http,$state,$q) {
   return{
     login:function(userdata) {
       $http({
-        url:"http://test.w34.co/json/",
+        url:"http://localhost:3000/api/login",
         method:'POST',
         data:userdata
       }).then(function(res) {
-      //  $location.url('/login');
       if(res.data.length){
           def.resolve({
                     "status": 1,
@@ -28,7 +27,7 @@ angular.module('myApp').factory('User',function ($http,$state,$q) {
     },
     signup:function(user) {
       $http({
-        url:"http://test.w34.co/json/",
+        url:"http://localhost:3000/api/signup",
         method:'POST',
         data:userdata
       }).then(function(res) {
@@ -53,7 +52,7 @@ angular.module('myApp').factory('User',function ($http,$state,$q) {
     },
     checkunique:function(username) {
       $http({
-        url:"http://test.w34.co/json/",
+        url:"http://localhost:3000/api/check-username",
         method:'POST',
         data:username
       }).then(function(res) {
