@@ -1,6 +1,8 @@
 angular.module('ChatApp').controller('signup', function($scope, $state, User, $ionicPopup) {
   $scope.user = {};
   $scope.signup = function(valid){
+      $scope.usernameIsUnique = false;
+
       if (valid) {
           User.checkunique($scope.user.username).then(function(username) {
               console.log(username.status);
@@ -10,8 +12,8 @@ angular.module('ChatApp').controller('signup', function($scope, $state, User, $i
                           socket.emit("login", $scope.user.username);
                           localStorage.setItem('user', JSON.stringify({
                             "check": 0,
-                            "fullname": data.user.fullname,
-                            "username": data.user.username
+                            "fullname": $scope.user.firstname+" "+$scope.user.lastname,
+                            "username": $scope.user.username
                           }));
                           $state.go('app.activeusers');
                       } else {

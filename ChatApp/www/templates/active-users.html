@@ -1,5 +1,10 @@
-<ion-view view-title="Active users">
+<ion-view view-title="Active Users">
   <ion-content>
+      <ion-list>
+
+  <ion-checkbox ng-click="offline()" ng-model="filter.red">Appear Offline</ion-checkbox>
+
+</ion-list>
     <div ng-repeat="user in onlineUsers track by $index">
     	<span style="font-weight: bold"> <img style="width:10px" src="../img//online-icon.png"> </span> <span> {{user}}</span>
     </div>
