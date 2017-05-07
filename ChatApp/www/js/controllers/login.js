@@ -15,7 +15,7 @@ angular.module('ChatApp').controller('login',function($scope,$state,User,$ionicP
   console.log(data.msg);
   console.log(data.user.fullname);
   if(data.status==1){
-    $state.go('home');
+    $state.go('app.activeusers');
   }else{
     $ionicPopup.show({
 template: "Invalid username or password",

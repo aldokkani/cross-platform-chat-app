@@ -7,7 +7,7 @@ angular.module('ChatApp').controller('signup', function($scope, $state, User, $i
         if (username.status == 1) {
           User.signup($scope.user).then(function(data) {
             if (data.status == 1) {
-              $state.go('home');
+              $state.go('app.activeusers');
             } else {
               $ionicPopup.show({
                 template: "can't register try again later",
