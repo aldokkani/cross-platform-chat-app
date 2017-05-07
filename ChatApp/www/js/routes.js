@@ -2,11 +2,15 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('home', {
+        cache: false,
+
       url: '',
       templateUrl: 'templates/home.html'
 
     })
     .state('signup', {
+        cache: false,
+
       url: '/signup',
       templateUrl: 'templates/signup.html',
       controller: 'signup'
@@ -14,12 +18,16 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
 
     })
     .state('login', {
+        cache: false,
+        
       url: '/login',
       templateUrl: 'templates/login.html',
       controller: 'login'
 
     })
     .state('app', {
+        cache: false,
+
       url: '/app',
       abstract: true,
       templateUrl: 'templates/menu.html',
@@ -37,6 +45,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
     })
 
     .state('app.chat', {
+        cache: false,
       url: '/chat',
       views: {
         "menuContent": {
@@ -47,6 +56,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
     })
 
     .state('app.activeusers', {
+      cache: false,
       url: '/activeusers',
       views: {
         "menuContent": {
