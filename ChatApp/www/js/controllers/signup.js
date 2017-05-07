@@ -1,54 +1,86 @@
 angular.module('ChatApp').controller('signup', function($scope, $state, User, $ionicPopup) {
   $scope.user = {};
-  $scope.signup = function(valid) {
-    valid = valid ? valid && ($scope.user.password == $scope.user.confirmpassword) : false;
-    if (valid) {
-      User.checkunique($scope.user.username).then(function(username) {
-        if (username.status == 1) {
-          User.signup($scope.user).then(function(data) {
-            if (data.status == 1) {
-              $state.go('app.activeusers');
-            } else {
+  $scope.signup = function(valid){
+      if (valid) {
+          User.checkunique($scope.user.username).then(function(username) {
+              console.log(username.status);
+              if (username.status) {
+                  User.signup($scope.user).then(function(success) {
+                      if (success.status) {
+                          socket.emit("login", $scope.user.username);
+                          $state.go('app.activeusers');
+                      } else {
+                          $ionicPopup.show({
+                            template: "Server error please try again later",
+                            title: 'Error',
+                            subTitle: '',
+                            scope: $scope,
+                            buttons: [{
+                              text: '<b>Ok</b>',
+                              type: 'button-positive',
+                              onTap: function() {
+                                $state.go('signup')
+
+                              }
+
+                            }]
+                          });
+                      }
+                  }, function(err) {
+                      $ionicPopup.show({
+                        template: "Server error please try again later",
+                        title: 'Error',
+                        subTitle: '',
+                        scope: $scope,
+                        buttons: [{
+                          text: '<b>Ok</b>',
+                          type: 'button-positive',
+                          onTap: function() {
+                            $state.go('signup')
+
+                          }
+
+                        }]
+                      });
+                  })
+              } else {
+                  $scope.usernameIsUnique = true;
+              }
+          }, function(err) {
+              console.log(err);
               $ionicPopup.show({
-                template: "can't register try again later",
+                template: "Server error please try again later",
                 title: 'Error',
-                subTitle: 'please try again',
+                subTitle: '',
                 scope: $scope,
                 buttons: [{
                   text: '<b>Ok</b>',
                   type: 'button-positive',
                   onTap: function() {
-                    $state.go('home')
+                    $state.go('signup')
 
                   }
 
                 }]
               });
-            }
 
-
-          })
-        } else {
-          $ionicPopup.show({
-            template: "username already exist",
-            title: 'Error',
-            subTitle: 'please enter another username',
-            scope: $scope,
-            buttons: [{
-              text: '<b>Ok</b>',
-              type: 'button-positive',
-              onTap: function() {
-                $state.go('home')
-
-              }
-
-            }]
           });
-
-        }
-
-      })
-
-    }
+      }
   }
-})
+
+
+// $ionicPopup.show({
+//   template: "username already exist",
+//   title: 'Error',
+//   subTitle: 'please enter another username',
+//   scope: $scope,
+//   buttons: [{
+//     text: '<b>Ok</b>',
+//     type: 'button-positive',
+//     onTap: function() {
+//       $state.go('home')
+//
+//     }
+//
+//   }]
+});

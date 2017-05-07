@@ -2,7 +2,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('home', {
-      url: '/home',
+      url: '',
       templateUrl: 'templates/home.html'
 
     })
@@ -31,7 +31,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
       views: {
         "menuContent": {
           templateUrl: "templates/about.html",
-        }
+        },
       },
 
     })
@@ -41,6 +41,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
       views: {
         "menuContent": {
           templateUrl: "templates/chat.html",
+          controller: 'chat'
         }
       },
     })
@@ -50,7 +51,7 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
       views: {
         "menuContent": {
           templateUrl: "templates/active-users.html",
-        //   controller: 'ActiveUsers'
+          controller: 'activeusers'
         },
       }
     })

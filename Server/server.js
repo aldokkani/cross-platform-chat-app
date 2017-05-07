@@ -13,42 +13,47 @@ var messagesArr = [];
 //middlewares
 app.use(bodyParser.json())
 
+app.all('*',function(req,res,next){
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+})
+
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
 
 function validateNewUser(user) {
-    var dataExists = user.username && user.email && user.password && user.fname && user.lname;
+    var dataExists = user.username && user.email && user.password && user.firstname && user.lastname;
     var dataIsValid = validateEmail(user.email) && (user.password.length > 5) && (user.username.length > 3);
     return dataExists && dataIsValid;
 }
 
 //routing
 app.post('/api/signup',function(request,response){
-  console.log(request.body);
   if (validateNewUser(request.body)) {
       var user = {
           "username": request.body.username,
-          "fname": request.body.fname,
-          "lname": request.body.lname,
+          "firstname": request.body.firstname,
+          "lastname": request.body.lastname,
           "password": request.body.password,
           "email": request.body.email
       }
 
       database.collection('users').save(user, function(err, res) {
-          console.log("db");
           if(!err){
               response.send({
                   "status": 1,
                   "msg": res,
                   "user": {
-                      "fullname": user.fname+ " " + user.lname,
+                      "fullname": user.firstname+ " " + user.lastname,
                       "username": user.username
                   }
               })
           }else{
-              response.send({status:0, msg:err})
+              response.send({status:0, msg:"there is error"})
           }
       });
   } else {
@@ -65,17 +70,16 @@ app.post('/api/login',function(request,response){
             "password":request.body.password
         }).toArray(function(err,user){
             if (!err && user.length) {
-                console.log(user,"login");
                 response.send({
                     "status": 1,
                     "msg": "loggedin successfully.",
                     "user": {
-                        "fullname": user[0].fname+ " " + user[0].lname,
+                        "fullname": user[0].firstname+ " " + user[0].lastname,
                         "username": user[0].username
                     }
                 });
             } else {
-                response.send({status:0, msg:err})
+                response.send({status:0, msg:"there is error in mongo", err:err})
             }
         });
 
@@ -84,12 +88,11 @@ app.post('/api/login',function(request,response){
     }
 })
 
-app.post('/api/check-username',function(request,response){
+app.post('/api/checkusername',function(request,response){
     if (request.body.username) {
         database.collection('users').find({
             "username":request.body.username
         }).toArray(function(err,user){
-            console.log(user);
             if (!err && !user.length) {
                 response.send({
                     "status": 1,
@@ -117,7 +120,7 @@ app.get('*',function(request,response){
 //socket
 
 io.on('connection',function(client){
-
+    console.log(onlineUsers);
     client.on("getOnlineUsers", function() {
         client.emit("onlineUsers", onlineUsers);
     });
@@ -128,12 +131,20 @@ io.on('connection',function(client){
         client.broadcast.emit("onlineUsers", onlineUsers);
     });
 
+    client.on('logout', function (user) {
+        onlineUsers.splice((onlineUsers.indexOf(user)), 1);
+        client.emit("onlineUsers", onlineUsers);
+        client.broadcast.emit("onlineUsers", onlineUsers);
+    });
+
     client.on("message", function(msg) {
         database.collection('messages').save(msg, function(err, res){
             if (!err) {
                 messagesArr.push(msg);
                 client.emit("message", messagesArr);
                 client.broadcast.emit("message", messagesArr);
+                console.log(msg);
+
             } else {
                 client.emit("errMsg", "Your message wasn't sent!");
             }
@@ -163,5 +174,5 @@ MongoClient.connect(url, function(err, db){
   }else{
     console.log("Couldn't connect to DB");
   }
-  db.close();
+  // db.close();
 })

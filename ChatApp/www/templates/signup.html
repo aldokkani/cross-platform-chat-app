@@ -9,6 +9,7 @@
       <input type="text" ng-model="user.username" name="username" required>
     </br>
    <p class="error" ng-if="signupform.username.$error.required&&submitted">Enter Your UserName</p>
+   <p class="error" ng-if="usernameIsUnique&&submitted">Username already exists.</p>
 </br>
     </label>
     <label class="item item-input item-stacked-label">

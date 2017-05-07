@@ -1,20 +1,11 @@
-angular.module('ChatApp').controller('AppCtrl', function($scope, $timeout){
+angular.module('ChatApp').controller('AppCtrl', function($scope, $timeout, $state){
+    console.log('AppCtrl');
+    var localuser =  JSON.parse(localStorage.getItem("user"));
 
-    socket.emit('getOnlineUsers');
-
-    socket.on('onlineUsers', function(users) {
-        $timeout(function(){
-            $scope.onlineUsers = users;
-        })
-    });
-
-    socket.on('message', function(){
-
-    });
-
-    console.log('heres')
     $scope.logout = function() {
         localStorage.clear()
-        $state.go('app.activeusers')
+        socket.emit('logout', localuser.username);
+        $state.go('home');
     }
+
 });

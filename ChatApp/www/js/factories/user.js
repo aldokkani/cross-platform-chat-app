@@ -18,7 +18,7 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
       $http({
         url: "http://localhost:3000/api/signup",
         method: 'POST',
-        data: userdata
+        data: user
       }).then(function(res) {
         //  $location.url('/login');
 
@@ -32,13 +32,15 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
     },
     checkunique: function(username) {
       $http({
-        url: "http://localhost:3000/api/check-username",
+        url: "http://localhost:3000/api/checkusername",
         method: 'POST',
-        data: username
+        data: {"username": username}
       }).then(function(res) {
         //  $location.url('/login');
+        console.log(res);
           def.resolve(res.data)
       }, function(err) {
+          console.log(err);
         return def.reject(err)
 
       })

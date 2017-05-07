@@ -1,6 +1,6 @@
 <ion-view view-title="Active users">
   <ion-content>
-    <div ng-repeat="user in onlineUsers">
+    <div ng-repeat="user in onlineUsers track by $index">
     	<span style="font-weight: bold"> <img style="width:10px" src="../img//online-icon.png"> </span> <span> {{user}}</span>
     </div>
 
