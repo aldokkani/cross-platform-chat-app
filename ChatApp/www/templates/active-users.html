@@ -1,8 +1,22 @@
 <ion-view view-title="Active users">
   <ion-content>
-    <div ng-repeat="user in onlineUsers track by $index">
-    	<span style="font-weight: bold"> <img style="width:10px" src="../img//online-icon.png"> </span> <span> {{user}}</span>
-    </div>
+<div ng-repeat="user in onlineUsers track by $index">
+    <div class="list" >
 
+      <a class="item item-avatar" >
+        <img src="../img//online.png">
+        <h2>{{user}}</h2>
+        <p>{{}}</p>
+      </a>
+
+    </div>
+</div>
+<div class="chat">
+    <center>
+    <button class="button button-calm" ui-sref="app.chat">
+  Start Chat
+</button>
+</center>
+</div>
   </ion-content>
 </ion-view>
