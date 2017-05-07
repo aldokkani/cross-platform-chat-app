@@ -34,21 +34,21 @@
     </label>
     <label class="item item-input item-stacked-label">
       <span class="input-label">Password</span>
-      <input type="password" ng-model="user.password" name="password" required>
+      <input type="password" ng-model="user.password" name="password" ng-minlength="6" required>
     </br>
    <p class="error" ng-if="signupform.password.$error.required&&submitted">Enter Your Password</p>
 </br>
 </br>
-     <p class="error" ng-if="errorLength&&submitted">Password less than 6</p>
+     <p class="error" ng-if="signupform.password.$error.minlength&&submitted">Password less than 6</p>
     </br>
     </label>
     <label class="item item-input item-stacked-label">
       <span class="input-label">Confirm Password</span>
-      <input type="password" ng-model="user.confirmpassword" name="confirm" required>
+      <input type="password" ng-model="user.confirmpassword" name="confirmpassword" required>
     </br>
-   <p class="error" ng-if="signform.confirm.$error.required&&submitted">Enter Your password</p>
+   <p class="error" ng-if="signupform.confirmpassword.$error.required&&submitted">Enter Your password</p>
   </br>
-  <p class="error" ng-if="user.password!=user.confirm&&submitted&&user.confirm">password not match</p>
+  <p class="error" ng-if="user.password!=user.confirmpassword&&submitted&&user.confirmpassword">password not match</p>
  </br>
     </label>
 

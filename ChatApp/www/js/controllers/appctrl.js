@@ -1,4 +1,4 @@
-angular.module('ChatApp').controller('AppCtrl', function($scope, $rootScope, $state , $ionicLoading){
+angular.module('ChatApp').controller('AppCtrl', function($scope, $timeout){
 
     socket.emit('getOnlineUsers');
 
@@ -9,7 +9,7 @@ angular.module('ChatApp').controller('AppCtrl', function($scope, $rootScope, $st
     });
 
     socket.on('message', function(){
-        
+
     });
 
     console.log('heres')

@@ -1,10 +1,11 @@
 angular.module('ChatApp').factory('User',function ($http,$state,$q) {
     var def=$q.defer();
   return{
-    login:function() {
+    login:function(userdata) {
       $http({
         url:"http://test.w34.co/json/",
-        method:'GET'
+        method:'POST',
+        data:userdata
       }).then(function(res) {
       //  $location.url('/login');
       if(res.data.length){
@@ -25,10 +26,11 @@ angular.module('ChatApp').factory('User',function ($http,$state,$q) {
       })
       return def.promise;
     },
-    signup:function() {
+    signup:function(user) {
       $http({
         url:"http://test.w34.co/json/",
-        method:'GET'
+        method:'POST',
+        data:userdata
       }).then(function(res) {
       //  $location.url('/login');
       if(res.data.length){
@@ -49,10 +51,11 @@ angular.module('ChatApp').factory('User',function ($http,$state,$q) {
       })
       return def.promise;
     },
-    checkunique:function() {
+    checkunique:function(username) {
       $http({
         url:"http://test.w34.co/json/",
-        method:'GET'
+        method:'POST',
+        data:username
       }).then(function(res) {
       //  $location.url('/login');
       if(res.data.length){
