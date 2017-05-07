@@ -1,41 +1,42 @@
-<ion-view >
+<ion-view>
   <ion-content class="homepage">
     <div class="overlay">
       <div class="contents">
+          <!-- <a class="button icon-left ion-chevron-left button-clear button-dark" ui-sref="home">Back</a> -->
         <div class="list">
           <form novalidate ng-submit=" submitted=true;signup(signupform.$valid)" name="signupform">
-    <label class="item item-input item-stacked-label">
-      <span class="input-label" >User name</span>
-      <input type="text" ng-model="user.username" name="username" required>
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label" >User name</span> -->
+      <input type="text" ng-model="user.username" name="username" required placeholder="Username">
     </br>
    <p class="error" ng-if="signupform.username.$error.required&&submitted">Enter Your UserName</p>
    <p class="error" ng-if="usernameIsUnique&&submitted">Username already exists.</p>
 </br>
     </label>
-    <label class="item item-input item-stacked-label">
-      <span class="input-label" >First name</span>
-      <input type="text" ng-model="user.firstname" name="fname"  required>
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label" >First name</span> -->
+      <input type="text" ng-model="user.firstname" name="fname" placeholder="First name" required>
     </br>
    <p class="error" ng-if="signupform.fname.$error.required&&submitted">Enter Your FirstName</p>
 </br>
     </label>
-    <label class="item item-input item-stacked-label">
-      <span class="input-label" >Last name</span>
-      <input type="text" ng-model="user.lastname" name="lname" required >
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label" >Last name</span> -->
+      <input type="text" ng-model="user.lastname" name="lname" placeholder="Last name" required >
     </br>
    <p class="error" ng-if="signupform.lname.$error.required&&submitted">Enter Your LastName</p>
 </br>
     </label>
-    <label class="item item-input item-stacked-label">
-      <span class="input-label">Email</span>
-      <input type="text" ng-model="user.email" name="email" required>
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label">Email</span> -->
+      <input type="text" ng-model="user.email" name="email" placeholder="Email" required>
     </br>
    <p class="error" ng-if="signupform.email.$error.required&&submitted">Enter Your Email</p>
 </br>
     </label>
-    <label class="item item-input item-stacked-label">
-      <span class="input-label">Password</span>
-      <input type="password" ng-model="user.password" name="password" ng-minlength="6" required>
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label">Password</span> -->
+      <input type="password" ng-model="user.password" placeholder="Password" name="password" ng-minlength="6" required>
     </br>
    <p class="error" ng-if="signupform.password.$error.required&&submitted">Enter Your Password</p>
 </br>
@@ -43,9 +44,9 @@
      <p class="error" ng-if="signupform.password.$error.minlength&&submitted">Password less than 6</p>
     </br>
     </label>
-    <label class="item item-input item-stacked-label">
-      <span class="input-label">Confirm Password</span>
-      <input type="password" ng-model="user.confirmpassword" name="confirmpassword" required>
+            <label class="item item-input item-stacked-label">
+      <!-- <span class="input-label">Confirm Password</span> -->
+      <input type="password" ng-model="user.confirmpassword" placeholder="Confirm password" name="confirmpassword" required>
     </br>
    <p class="error" ng-if="signupform.confirmpassword.$error.required&&submitted">Enter Your password</p>
   </br>
@@ -54,12 +55,12 @@
     </label>
 
 
-    <button class="button button-assertive button-block" >Register</button>
+            <button class="button button-assertive button-block">Register</button>
 
-</form>
-</div>
+          </form>
+        </div>
 
-</div>
-</div>
-</ion-content>
+      </div>
+    </div>
+  </ion-content>
 </ion-view>

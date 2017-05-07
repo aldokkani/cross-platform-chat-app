@@ -1,22 +1,28 @@
 /* Empty. Add your own CSS if you like */
 
-.homepage{
-background-image: url('../img/home.jpg');
-background-size: cover;
-background-position: center;
+.homepage {
+  background-image: url('../img/home.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100%;
+  width: 100%;
 }
 
-.overlay{
+#appname{
+
+}
+
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0,0.6);
+  background: rgba(0, 0, 0, 0.6);
   text-align: center;
 }
 
-.overlay:before{
+.overlay:before {
   content: "";
   display: inline-block;
   height: 100%;
@@ -24,34 +30,39 @@ background-position: center;
   text-align: center;
 }
 
-.contents{
+.contents {
   vertical-align: middle;
   display: inline-block;
   text-align: center;
 }
 
-h1{
+h1 {
   color: #fff;
   text-align: center;
 }
 
-.homepage .item{
+.homepage .item {
   border: 0;
 }
 
-.homepage .item-input{
-text-align: left;
-padding-left: 0;
+.homepage .item-input {
+  text-align: left;
+  padding-left: 0;
 }
 
-.homepage .item-input span{
-color: #fff;
+.homepage .item-input span {
+  color: #fff;
 }
 
-.homepage input{
-background: transparent;
-color: #fff;
-border-bottom: 1px solid #fff;
+.homepage input {
+  background: transparent;
+  color: #fff;
+  border-bottom: 1px solid #fff;
+}
+
+.item-checkbox {
+  background: transparent;
+  color: white;
 }
 .chat{
     margin-top: 20px;

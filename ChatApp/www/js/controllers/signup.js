@@ -8,6 +8,11 @@ angular.module('ChatApp').controller('signup', function($scope, $state, User, $i
                   User.signup($scope.user).then(function(success) {
                       if (success.status) {
                           socket.emit("login", $scope.user.username);
+                          localStorage.setItem('user', JSON.stringify({
+                            "check": 0,
+                            "fullname": data.user.fullname,
+                            "username": data.user.username
+                          }));
                           $state.go('app.activeusers');
                       } else {
                           $ionicPopup.show({
