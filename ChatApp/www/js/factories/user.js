@@ -1,4 +1,4 @@
-angular.module('myApp').factory('User',function ($http,$state,$q) {
+angular.module('ChatApp').factory('User',function ($http,$state,$q) {
     var def=$q.defer();
   return{
     login:function() {

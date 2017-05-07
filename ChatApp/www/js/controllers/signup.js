@@ -1,4 +1,4 @@
-angular.module('myApp').controller('signup',function($scope,$state,User,$ionicPopup) {
+angular.module('ChatApp').controller('signup',function($scope,$state,User,$ionicPopup) {
   $scope.user={};
   $scope.signup=function(valid){
     valid=valid?valid&&($scope.user.password==$scope.user.confirmpassword):false;

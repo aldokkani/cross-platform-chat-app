@@ -6,13 +6,12 @@
 // 'starter.controllers' is found in controllers.js
 var socket = io("http://localhost:3000");
 
-angular.module('myApp', ['ionic'])//###, 'starter.controllers'])
+angular.module('ChatApp', ['ionic'])//###, 'starter.controllers'])
 
 .run(function($ionicPlatform , $state) {
   var data={};
 data=JSON.parse(localStorage.getItem('user'));
-console.log(data);
-if(data.check==1){
+ if(data && data.check==1){
        $state.go('home')
    }
   $ionicPlatform.ready(function() {
