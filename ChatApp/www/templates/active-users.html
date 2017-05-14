@@ -1,24 +1,26 @@
 <ion-view view-title="Active users">
   <ion-content>
+      <!-- <div class="chat">
+          <center>
+              <button class="button button-calm" ui-sref="app.chat">
+              </button>
+          </center>
+      </div> -->
+      <button ui-sref="app.chat" class="button button-block button-dark">
+          Start Chat
+</button>
     <ion-checkbox ng-click="offline()" ng-model="filter.red">Appear Offline</ion-checkbox>
 
     <div ng-repeat="user in onlineUsers track by $index">
       <div class="list">
 
         <a class="item item-avatar">
-          <img src="../img//online.png">
+          <img src="../img//profile.png">
           <h2>{{user}}</h2>
           <p>{{}}</p>
         </a>
 
       </div>
-    </div>
-    <div class="chat">
-      <center>
-        <button class="button button-calm" ui-sref="app.chat">
-  Start Chat
-</button>
-      </center>
     </div>
   </ion-content>
 </ion-view>

@@ -1,28 +1,28 @@
 <ion-view view-title="Chat Room">
-  <ion-content>
-   <div ng-repeat="message in messagesArr">
-   	 <span style="font-weight: bold"> {{message.username}}:  </span><span>{{message.message}}</span>
-   </div>
+  <ion-content style="bottom: 100px">
 
- 	<form name="chatForm" ng-submit="sendMessage()" novalidate>
-	    <!-- <div class="list list-inset">
-            <label class="item item-input">
-            <input type="text" ng-model="message.body" required name="msg" row="10" col="50">
-	    </div>
-    </label>
-	     <button class="button button-positive">Send</button>
-        <button class="button icon-right ion-chevron-right button-calm">Send</button> -->
-        <div class="list">
-
-        <div class="item item-input-inset">
-          <label class="item-input-wrapper">
-            <input type="text" ng-model="message.body">
-          </label>
-          <button class="button icon-right ion-chevron-right button-calm button button-small">Send</button>
-
-        </div>
+    <div ng-repeat="message in messagesArr" class="card">
+    <div class="item item-divider">
+     <strong>{{message.username}}</strong>
     </div>
-    </form>
+    <div class="item item-text-wrap">
+     {{message.message}}
+    </div>
+    </div>
+
+
 
   </ion-content>
+  <form id="chatForm" name="chatForm" ng-submit="sendMessage()" novalidate>
+      <div class="list">
+
+          <div class="item item-input-inset">
+              <label class="item-input-wrapper">
+                  <input type="text" ng-model="message.body">
+              </label>
+              <button class="button icon-right ion-chevron-right button-dark button button-small">Send</button>
+
+          </div>
+      </div>
+  </form>
 </ion-view>
