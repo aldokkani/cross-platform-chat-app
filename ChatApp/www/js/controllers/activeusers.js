@@ -10,6 +10,7 @@ angular.module('ChatApp').controller('activeusers', function($scope, $rootScope,
         })
     });
 
+    // Apear offline feature
     $scope.offline = function() {
         if (online) {
             socket.emit('logout', $rootScope.user.username);

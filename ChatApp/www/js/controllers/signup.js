@@ -1,11 +1,12 @@
 angular.module('ChatApp').controller('signup', function($scope, $state, User, $ionicPopup) {
   $scope.user = {};
+  console.log("singupctr");
   $scope.signup = function(valid){
       $scope.usernameIsUnique = false;
 
       if (valid) {
           User.checkunique($scope.user.username).then(function(username) {
-              console.log(username.status);
+              console.log(username);
               if (username.status) {
                   User.signup($scope.user).then(function(success) {
                       if (success.status) {

@@ -8,10 +8,12 @@ angular.module('ChatApp').controller('AppCtrl', function($scope, $rootScope, $ti
         socket.emit('logout', localuser.username);
         $state.go('home');
     }
-    
-    // $window.onbeforeunload = function() {
-    //     localStorage.clear()
-    //     socket.emit('logout', localuser.username);
-    // };
+
+    $window.onbeforeunload = function() {
+        if (!localuser.check) {
+            localStorage.clear()
+        }
+        socket.emit('logout', localuser.username);
+    };
 
 });

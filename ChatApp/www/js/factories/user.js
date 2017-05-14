@@ -38,6 +38,7 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
       }).then(function(res) {
         //  $location.url('/login');
         console.log(res);
+        console.log(username);
           def.resolve(res.data)
       }, function(err) {
           console.log(err);

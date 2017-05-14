@@ -6,82 +6,30 @@
 // 'starter.controllers' is found in controllers.js
 var socket = io("http://localhost:3000");
 
-angular.module('ChatApp', ['ionic'])//###, 'starter.controllers'])
+angular.module('ChatApp', ['ionic']) //###, 'starter.controllers'])
 
-.run(function($ionicPlatform , $state) {
-  var data={};
-data=JSON.parse(localStorage.getItem('user'));
- if(data && data.check==1){
-       $state.go('home')
-   }
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-      cordova.plugins.Keyboard.disableScroll(true);
+  .run(function($ionicPlatform, $state, $location) {
 
+    var data = JSON.parse(localStorage.getItem('user'));
+    console.log("app.js");
+    if (data && data.check == 1) {
+      //   $state.go('app.activeusers');
+      socket.emit("login", data.username);
+      $location.url('/app/activeusers');
     }
-    // if (window.StatusBar) {
-    //   // org.apache.cordova.statusbar required
-    //   StatusBar.styleDefault();
-    // }
-    // if(localStorage.getItem('userlogin')){
-    //   $state.go('app.activeusers')
-    // }
-    // else {
-    //   $state.go('about')
 
-    // }
-  });
-})
+    $ionicPlatform.ready(function() {
+      // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+      // for form inputs)
+      if (window.cordova && window.cordova.plugins.Keyboard) {
+        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        cordova.plugins.Keyboard.disableScroll(true);
 
-// .config(function($stateProvider, $urlRouterProvider) {
-//   $stateProvider
-//
-//     .state('app', {
-//     url: '/app',
-//     abstract: true,
-//     templateUrl: 'templates/menu.html',
-//     controller: 'AppCtrl'
-//   })
-//
-//   .state('app.search', {
-//     url: '/search',
-//     views: {
-//       'menuContent': {
-//         templateUrl: 'templates/search.html'
-//       }
-//     }
-//   })
-//
-//   .state('app.browse', {
-//       url: '/browse',
-//       views: {
-//         'menuContent': {
-//           templateUrl: 'templates/browse.html'
-//         }
-//       }
-//     })
-//     .state('app.playlists', {
-//       url: '/playlists',
-//       views: {
-//         'menuContent': {
-//           templateUrl: 'templates/playlists.html',
-//           controller: 'PlaylistsCtrl'
-//         }
-//       }
-//     })
-//
-//   .state('app.single', {
-//     url: '/playlists/:playlistId',
-//     views: {
-//       'menuContent': {
-//         templateUrl: 'templates/playlist.html',
-//         controller: 'PlaylistCtrl'
-//       }
-//     }
-//   });
-//   // if none of the above states are matched, use this as the fallback
-//   $urlRouterProvider.otherwise('/app/playlists');
-// });
+      }
+      if (window.StatusBar) {
+        // org.apache.cordova.statusbar required
+        StatusBar.styleDefault();
+      }
+
+    });
+  })

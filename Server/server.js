@@ -126,15 +126,22 @@ io.on('connection',function(client){
     });
 
     client.on("login", function(user) {
-        onlineUsers.push(user);
-        client.emit("onlineUsers", onlineUsers);
-        client.broadcast.emit("onlineUsers", onlineUsers);
+
+        if (onlineUsers.indexOf(user) == -1) {
+            onlineUsers.push(user);
+            client.emit("onlineUsers", onlineUsers);
+            client.broadcast.emit("onlineUsers", onlineUsers);
+        }
+        
     });
 
     client.on('logout', function (user) {
-        onlineUsers.splice((onlineUsers.indexOf(user)), 1);
-        client.emit("onlineUsers", onlineUsers);
-        client.broadcast.emit("onlineUsers", onlineUsers);
+        var index = onlineUsers.indexOf(user)
+        if (index > -1) {
+            onlineUsers.splice(index, 1);
+            client.emit("onlineUsers", onlineUsers);
+            client.broadcast.emit("onlineUsers", onlineUsers);
+        }
     });
 
     client.on("message", function(msg) {
