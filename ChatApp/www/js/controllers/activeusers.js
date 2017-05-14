@@ -1,4 +1,4 @@
-angular.module('ChatApp').controller('activeusers', function($scope, $rootScope, $timeout, $state){
+angular.module('ChatApp').controller('activeusers', function($location, $scope, $rootScope, $timeout, $state){
     console.log("ActiveUsersCtrl");
     $scope.onlineUsers = [];
     var online = true;
@@ -19,6 +19,12 @@ angular.module('ChatApp').controller('activeusers', function($scope, $rootScope,
             socket.emit('login', $rootScope.user.username);
             online = true;
         }
+    }
+
+    $scope.privateMsg = function(user){
+        $rootScope.privateUser = user;
+        $state.go('app.privatechat')
+           
     }
 
 });

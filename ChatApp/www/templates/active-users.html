@@ -14,7 +14,7 @@
     <div ng-repeat="user in onlineUsers track by $index">
       <div class="list">
 
-        <a class="item item-avatar">
+        <a ng-click="privateMsg(user)" class="item item-avatar">
           <img src="../img//profile.png">
           <h2>{{user}}</h2>
           <p>{{}}</p>
