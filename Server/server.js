@@ -9,7 +9,7 @@ const MongoClient = mongodb.MongoClient
 var database;
 var onlineUsers = [];
 var messagesArr = [];
-
+var privateMessagesArr = [];
 //middlewares
 app.use(bodyParser.json())
 
@@ -161,9 +161,51 @@ io.on('connection',function(client){
     client.on("getAllmessages", function() {
         client.emit("message", messagesArr);
     });
+    
+    client.on("getAllPrivateMsgs", function(arr) {
+      database.collection('users').find({"username" : arr["user1"]}).toArray(function(err,msgs){
+        user2 = arr["user2"]
+        messagesArr = msgs.user2;
+      });
+       client.emit("privateMessage", privateMessagesArr);
+      });
+    client.on("privateMessage", function(msg) {
+      console.log("private message received: "  , msg)
+      database.collection('users').find({'username' : msg["user1"]}).toArray(function(err,msgs){
+          privateMessagesArr = msgs;
+          console.log("user caught" ,privateMessagesArr)
+          console.log (err)
+      });
+      var msgUser1 = msg["user1"]
+      var msgUser2 = msg["user2"]
+      if (privateMessagesArr.msgUser2){
+        privateMessagesArr.msgUser2.push({ msgUser1: msg["message"]})
+      }
+      else {
+        privateMessagesArr.msgUser2 = {  msgUser2: msg["message"]}
+      }
+      database.collection('users').update({'username' : msgUser1}, { msgUser1 : privateMessagesArr  }, function(err, res){
+          if (!err) {
+              client.emit("privateMessage", privateMessagesArr);
+              console.log("private message arr" , privateMessagesArr);
+
+          } else {
+              client.emit("errMsg", "Your message wasn't sent!");
+          }
+      });
+      database.collection('users').find({'username' : msg["user2"]}).toArray(function(err,msgs){
+          privateMessagesArr = msgs;
+      });
+      if (privateMessagesArr.msgUser1){
+        privateMessagesArr.msgUser1.push({msgUser1: msg["message"]})
+      }
+      else {
+        privateMessagesArr.msgUser1 = { msgUser1: msg["message"]}
+      }
+      database.collection('users').update({'username' : msg["user2"]}, { msgUser1: privateMessagesArr  })
+    });
 
 });
-
 //connecting to mongodb
 var url='mongodb://127.0.0.1:27017/chatdb';
 MongoClient.connect(url, function(err, db){
