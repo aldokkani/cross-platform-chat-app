@@ -9,6 +9,9 @@ const MongoClient = mongodb.MongoClient
 var database;
 var onlineUsers = [];
 var messagesArr = [];
+var privateMessageArr = [];
+var user1;
+var user2;
 var userObj = [];
 //middlewares
 app.use(bodyParser.json())
@@ -178,71 +181,56 @@ io.on('connection', function(client) {
     });
 
     client.on("getAllmessages", function() {
+
         client.emit("message", messagesArr);
     });
 
     client.on("getAllPrivateMsgs", function(arr) {
-        database.collection('users').find({
-            "username": arr["sender"]
-        }).toArray(function(err, msgs) {
-            reciever = arr["reciever"]
-            messagesArr = msgs.reciever;
+       //----- The following is just for sorting alphatabetically !
+       if(arr['user1'] < arr['user2']){
+            user1 = arr['user1']
+            user2 = arr['user2']
+        }
+        else {
+         user1 = arr['user2']
+         user2 = arr['user1']
+        }
+        var tableName = user1  + "and"  + user2
+        client.join(tableName);
+        database.collection(tableName).find().toArray(function(err, msgs) {
+            privateMessageArr= msgs;
+            client.emit("privateMessage", privateMessageArr);
         });
-        client.emit("privateMessage", userObj);
+        
     });
 
-    client.on("privateMessage", function(msg) {
-        console.log("private message received: ", msg)
-        database.collection('users').find({
-            'username': msg["sender"]
-        }).toArray(function(err, user) {
-            userObj = user[0];
-            console.log("user caught", userObj)
-            console.log(err)
-        });
-
-        var sender = msg["sender"]
-        var reciever = msg["reciever"]
-        var sent_msg = {}
-        sent_msg[reciever] = msg['message'];
-
-        if (userObj[reciever]) {
-            userObj[reciever].push(sent_msg)
-        } else {
-            userObj[reciever] = [sent_msg];
+    client.on("privateMessage", function(msg){
+        //sorting array
+        if (msg['sender'] < msg['receiver']){
+            user1 = msg['sender'] 
+            user2 = msg['receiver']
         }
-
-        database.collection('users').update({
-            'username': sender
-        }, {
-            userObj
-        }, function(err, res) {
+        else {
+            user1 = msg['receiver'] 
+            user2 = msg['sender']
+        }
+        var tableName = user1  + "and"  + user2;
+        database.collection(tableName).save(msg, function(err, res) {
             if (!err) {
-                client.emit("privateMessage", userObj[reciever]);
-                console.log("private message arr", userObj[reciever]);
+                privateMessageArr.push(msg);
+                client.emit("privateMessage", privateMessageArr);
+                client.broadcast.to(tableName).emit("privateMessage", privateMessageArr);
+                console.log(msg);
+                console.log(privateMessageArr)
+
             } else {
                 client.emit("errMsg", "Your message wasn't sent!");
             }
         });
 
-        database.collection('users').find({
-            'username': msg["reciever"]
-        }).toArray(function(err, user) {
-            userObj = user[0];
-        });
+    })
 
-        if (userObj[sender]) {
-            userObj[sender].push(sent_msg)
-        } else {
-            userObj[sender] = [sent_msg];
-        }
 
-        database.collection('users').update({
-            'username': msg["reciever"]
-        }, {
-            userObj
-        })
-    });
 
 });
 //connecting to mongodb

@@ -11,7 +11,7 @@ angular.module('ChatApp').controller('chat', function($scope, $timeout, $state){
 
     $scope.sendMessage = function() {
         if ($scope.message.body) {
-            socket.emit('message', {"message": $scope.message.body, "username": localuser.username});
+            socket.emit('message', {"message": $scope.message.body, "sender": localuser.username});
         }
     }
 
