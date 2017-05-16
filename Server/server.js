@@ -9,11 +9,11 @@ const MongoClient = mongodb.MongoClient
 var database;
 var onlineUsers = [];
 var messagesArr = [];
-var privateMessagesArr = [];
+var userObj = [];
 //middlewares
 app.use(bodyParser.json())
 
-app.all('*',function(req,res,next){
+app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,POST');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -32,79 +32,98 @@ function validateNewUser(user) {
 }
 
 //routing
-app.post('/api/signup',function(request,response){
-  if (validateNewUser(request.body)) {
-      var user = {
-          "username": request.body.username,
-          "firstname": request.body.firstname,
-          "lastname": request.body.lastname,
-          "password": request.body.password,
-          "email": request.body.email
-      }
+app.post('/api/signup', function(request, response) {
+    if (validateNewUser(request.body)) {
+        var user = {
+            "username": request.body.username,
+            "firstname": request.body.firstname,
+            "lastname": request.body.lastname,
+            "password": request.body.password,
+            "email": request.body.email
+        }
 
-      database.collection('users').save(user, function(err, res) {
-          if(!err){
-              response.send({
-                  "status": 1,
-                  "msg": res,
-                  "user": {
-                      "fullname": user.firstname+ " " + user.lastname,
-                      "username": user.username
-                  }
-              })
-          }else{
-              response.send({status:0, msg:"there is error"})
-          }
-      });
-  } else {
-      response.send({status:0, msg:"Invalid data."})
-  }
+        database.collection('users').save(user, function(err, res) {
+            if (!err) {
+                response.send({
+                    "status": 1,
+                    "msg": res,
+                    "user": {
+                        "fullname": user.firstname + " " + user.lastname,
+                        "username": user.username
+                    }
+                })
+            } else {
+                response.send({
+                    status: 0,
+                    msg: "there is error"
+                })
+            }
+        });
+    } else {
+        response.send({
+            status: 0,
+            msg: "Invalid data."
+        })
+    }
 
 
 });
 
-app.post('/api/login',function(request,response){
+app.post('/api/login', function(request, response) {
     if (request.body.username && request.body.password) {
         database.collection('users').find({
-            "username":request.body.username,
-            "password":request.body.password
-        }).toArray(function(err,user){
+            "username": request.body.username,
+            "password": request.body.password
+        }).toArray(function(err, user) {
             if (!err && user.length) {
                 response.send({
                     "status": 1,
                     "msg": "loggedin successfully.",
                     "user": {
-                        "fullname": user[0].firstname+ " " + user[0].lastname,
+                        "fullname": user[0].firstname + " " + user[0].lastname,
                         "username": user[0].username
                     }
                 });
             } else {
-                response.send({status:0, msg:"there is error in mongo", err:err})
+                response.send({
+                    status: 0,
+                    msg: "there is error in mongo",
+                    err: err
+                })
             }
         });
 
     } else {
-        response.send({status:0, msg:"data is required"})
+        response.send({
+            status: 0,
+            msg: "data is required"
+        })
     }
 })
 
-app.post('/api/checkusername',function(request,response){
+app.post('/api/checkusername', function(request, response) {
     if (request.body.username) {
         database.collection('users').find({
-            "username":request.body.username
-        }).toArray(function(err,user){
+            "username": request.body.username
+        }).toArray(function(err, user) {
             if (!err && !user.length) {
                 response.send({
                     "status": 1,
                     "msg": "name is uniqe"
                 });
             } else {
-                response.send({status:0, msg:"name is not uniqe."})
+                response.send({
+                    status: 0,
+                    msg: "name is not uniqe."
+                })
             }
         });
 
     } else {
-        response.send({status:0, msg:"data is required"})
+        response.send({
+            status: 0,
+            msg: "data is required"
+        })
     }
 })
 
@@ -113,13 +132,13 @@ app.post('/api/checkusername',function(request,response){
 //   response.send({status:1})
 // })
 
-app.get('*',function(request,response){
-  response.send(404);
+app.get('*', function(request, response) {
+    response.send(404);
 })
 
 //socket
 
-io.on('connection',function(client){
+io.on('connection', function(client) {
     console.log(onlineUsers);
     client.on("getOnlineUsers", function() {
         client.emit("onlineUsers", onlineUsers);
@@ -132,10 +151,10 @@ io.on('connection',function(client){
             client.emit("onlineUsers", onlineUsers);
             client.broadcast.emit("onlineUsers", onlineUsers);
         }
-        
+
     });
 
-    client.on('logout', function (user) {
+    client.on('logout', function(user) {
         var index = onlineUsers.indexOf(user)
         if (index > -1) {
             onlineUsers.splice(index, 1);
@@ -145,7 +164,7 @@ io.on('connection',function(client){
     });
 
     client.on("message", function(msg) {
-        database.collection('messages').save(msg, function(err, res){
+        database.collection('messages').save(msg, function(err, res) {
             if (!err) {
                 messagesArr.push(msg);
                 client.emit("message", messagesArr);
@@ -161,67 +180,87 @@ io.on('connection',function(client){
     client.on("getAllmessages", function() {
         client.emit("message", messagesArr);
     });
-    
-    client.on("getAllPrivateMsgs", function(arr) {
-      database.collection('users').find({"username" : arr["user1"]}).toArray(function(err,msgs){
-        user2 = arr["user2"]
-        messagesArr = msgs.user2;
-      });
-       client.emit("privateMessage", privateMessagesArr);
-      });
-    client.on("privateMessage", function(msg) {
-      console.log("private message received: "  , msg)
-      database.collection('users').find({'username' : msg["user1"]}).toArray(function(err,msgs){
-          privateMessagesArr = msgs;
-          console.log("user caught" ,privateMessagesArr)
-          console.log (err)
-      });
-      var msgUser1 = msg["user1"]
-      var msgUser2 = msg["user2"]
-      if (privateMessagesArr.msgUser2){
-        privateMessagesArr.msgUser2.push({ msgUser1: msg["message"]})
-      }
-      else {
-        privateMessagesArr.msgUser2 = {  msgUser2: msg["message"]}
-      }
-      database.collection('users').update({'username' : msgUser1}, { msgUser1 : privateMessagesArr  }, function(err, res){
-          if (!err) {
-              client.emit("privateMessage", privateMessagesArr);
-              console.log("private message arr" , privateMessagesArr);
 
-          } else {
-              client.emit("errMsg", "Your message wasn't sent!");
-          }
-      });
-      database.collection('users').find({'username' : msg["user2"]}).toArray(function(err,msgs){
-          privateMessagesArr = msgs;
-      });
-      if (privateMessagesArr.msgUser1){
-        privateMessagesArr.msgUser1.push({msgUser1: msg["message"]})
-      }
-      else {
-        privateMessagesArr.msgUser1 = { msgUser1: msg["message"]}
-      }
-      database.collection('users').update({'username' : msg["user2"]}, { msgUser1: privateMessagesArr  })
+    client.on("getAllPrivateMsgs", function(arr) {
+        database.collection('users').find({
+            "username": arr["sender"]
+        }).toArray(function(err, msgs) {
+            reciever = arr["reciever"]
+            messagesArr = msgs.reciever;
+        });
+        client.emit("privateMessage", userObj);
+    });
+
+    client.on("privateMessage", function(msg) {
+        console.log("private message received: ", msg)
+        database.collection('users').find({
+            'username': msg["sender"]
+        }).toArray(function(err, user) {
+            userObj = user[0];
+            console.log("user caught", userObj)
+            console.log(err)
+        });
+
+        var sender = msg["sender"]
+        var reciever = msg["reciever"]
+        var sent_msg = {}
+        sent_msg[reciever] = msg['message'];
+
+        if (userObj[reciever]) {
+            userObj[reciever].push(sent_msg)
+        } else {
+            userObj[reciever] = [sent_msg];
+        }
+
+        database.collection('users').update({
+            'username': sender
+        }, {
+            userObj
+        }, function(err, res) {
+            if (!err) {
+                client.emit("privateMessage", userObj[reciever]);
+                console.log("private message arr", userObj[reciever]);
+            } else {
+                client.emit("errMsg", "Your message wasn't sent!");
+            }
+        });
+
+        database.collection('users').find({
+            'username': msg["reciever"]
+        }).toArray(function(err, user) {
+            userObj = user[0];
+        });
+
+        if (userObj[sender]) {
+            userObj[sender].push(sent_msg)
+        } else {
+            userObj[sender] = [sent_msg];
+        }
+
+        database.collection('users').update({
+            'username': msg["reciever"]
+        }, {
+            userObj
+        })
     });
 
 });
 //connecting to mongodb
-var url='mongodb://127.0.0.1:27017/chatdb';
-MongoClient.connect(url, function(err, db){
-  database = db;
-  if(!err){
-    console.log("Connected to DB");
-    database.collection('messages').find().toArray(function(err,msgs){
-        messagesArr = msgs;
-    });
-    //listing
-    server.listen(3000,function(){
-      console.log("Server is running!");
-    })
+var url = 'mongodb://127.0.0.1:27017/chatdb';
+MongoClient.connect(url, function(err, db) {
+    database = db;
+    if (!err) {
+        console.log("Connected to DB");
+        database.collection('messages').find().toArray(function(err, msgs) {
+            messagesArr = msgs;
+        });
+        //listing
+        server.listen(3000, function() {
+            console.log("Server is running!");
+        })
 
-  }else{
-    console.log("Couldn't connect to DB");
-  }
-  // db.close();
+    } else {
+        console.log("Couldn't connect to DB");
+    }
+    // db.close();
 })

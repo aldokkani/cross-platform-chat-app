@@ -16,6 +16,3 @@ angular.module('ChatApp').controller('chat', function($scope, $timeout, $state){
     }
 
 });
- socket.emit('message', {"message": $scope.message.body, "firstuser": User1, "secondUser" : User2});
-User1.PrivateMsg.User2()
-User2.PrivateMsg.User1()

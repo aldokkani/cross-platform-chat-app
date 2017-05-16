@@ -40,7 +40,6 @@ angular.module('ChatApp').controller('login', function($scope, $state, User, $io
 
             }]
           });
-        console.log("");
         }
 
 

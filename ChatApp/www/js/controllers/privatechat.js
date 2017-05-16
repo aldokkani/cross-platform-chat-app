@@ -12,7 +12,7 @@ angular.module('ChatApp').controller('privateChat', function($rootScope, $scope,
 
     $scope.sendMessage = function() {
         if ($scope.message.body) {
-            socket.emit('privateMessage', {"message": $scope.message.body, "user1": localuser.username ,"user2": $scope.specificUser});
+            socket.emit('privateMessage', {"message": $scope.message.body, "sneder": localuser.username ,"reciever": $scope.specificUser});
         }
     }
 
