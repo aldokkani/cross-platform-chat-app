@@ -22,6 +22,16 @@ angular.module('ChatApp', ['ionic']) //###, 'starter.controllers'])
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins.Keyboard) {
+          var date= new Date();
+
+        cordova.plugins.notification.local.schedule({
+        id: 1,
+        title: "Push Notification",
+        text: "Hello Eng Peter :D ",
+        at:date,
+
+        data: { meetingId:"123#fg8" }
+        });
         cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         cordova.plugins.Keyboard.disableScroll(true);
 
