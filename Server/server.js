@@ -87,6 +87,12 @@ app.post('/api/login', function(request, response) {
                         "username": user[0].username
                     }
                 });
+            } else if (!err)  {
+                response.send({
+                    status: 0,
+                    msg: "no users",
+                    err: err
+                })
             } else {
                 response.send({
                     status: 0,
@@ -201,17 +207,17 @@ io.on('connection', function(client) {
             privateMessageArr= msgs;
             client.emit("privateMessage", privateMessageArr);
         });
-        
+
     });
 
     client.on("privateMessage", function(msg){
         //sorting array
         if (msg['sender'] < msg['receiver']){
-            user1 = msg['sender'] 
+            user1 = msg['sender']
             user2 = msg['receiver']
         }
         else {
-            user1 = msg['receiver'] 
+            user1 = msg['receiver']
             user2 = msg['sender']
         }
         var tableName = user1  + "and"  + user2;
