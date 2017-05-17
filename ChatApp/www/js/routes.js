@@ -51,6 +51,17 @@ angular.module('ChatApp').config(function($stateProvider, $urlRouterProvider) {
       },
     })
 
+    .state('app.privatechat', {
+      cache: false,
+      url: '/private-chat',
+      views: {
+        "menuContent": {
+          templateUrl: "templates/chat.html",
+          controller: 'privateChat'
+        }
+      },
+    })
+
     .state('app.activeusers', {
       cache: false,
       url: '/activeusers',

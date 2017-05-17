@@ -3,7 +3,7 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
     login: function(userdata) {
         var def = $q.defer();
       $http({
-        "url": "http://localhost:3000/api/login",
+        "url": "http://172.16.2.235:3000/api/login",
         "method": 'POST',
         "data": userdata
       }).then(function(res) {
@@ -20,7 +20,7 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
         var def = $q.defer();
 
       $http({
-        url: "http://localhost:3000/api/signup",
+        url: "http://172.16.2.235:3000/api/signup",
         method: 'POST',
         data: user
       }).then(function(res) {
@@ -39,7 +39,7 @@ angular.module('ChatApp').factory('User', function($http, $state, $q) {
         var def = $q.defer();
 
       $http({
-        url: "http://localhost:3000/api/checkusername",
+        url: "http://172.16.2.235:3000/api/checkusername",
         method: 'POST',
         data: {
           "username": username
