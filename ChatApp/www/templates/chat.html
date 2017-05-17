@@ -1,4 +1,5 @@
 <ion-view view-title="Chat Room">
+    <div style = "background: url('../img/chat-bg.jpg') no-repeat;background-size:cover;">
   <ion-content style="bottom: 100px">
 
     <div ng-repeat="message in messagesArr" class="card">
@@ -13,6 +14,7 @@
 
 
   </ion-content>
+  </div>
   <form id="chatForm" name="chatForm" ng-submit="sendMessage()" novalidate>
       <div class="list">
 
